@@ -3,17 +3,23 @@ var router = express.Router();
 
 var Ziplink = require('../models/Ziplink.js');
 
-/* Ziplink display page */
+/*	Ziplink display page */
+/*	Final route before default to avoid pointless db queries */
 router.get('/:ziplinkID', function(req, res, next) {
 
-	//TODO: replace placeholder with code to query DB
-	var ziplinkData = req.params.ziplinkID;
+	//Query DB for ziplink with a matching ID
+	Ziplink.findByID(req.params.ziplinkID, function(err, ziplinkData){
+		if(!err && ziplinkData){
+			res.render('ziplink', { ziplinkData: ziplinkData });
+		} else {
+			next();
+		}
+	});
 
-	res.render('ziplink', { ziplinkData: ziplinkData });
 });
 
 /* Route doesn't match anything else, render homepage */
-router.get('', function(req, res, next) {
+router.get('/*', function(req, res, next) {
 	res.render('error', { message: 'Homepage not yet implemented' });
 });
 

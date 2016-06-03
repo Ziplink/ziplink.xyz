@@ -1,13 +1,18 @@
 var mongoose = require('mongoose');
+mongoose.connect('mongodb://localhost/ziplink');
 var Schema = mongoose.Schema;
 
 //setup Ziplink schema
 var ziplinkSchema = new Schema({
-	linkID: String,
+	ziplinkID: String,
 	sublinks: [{
 			url: String
 		}]
 });
+
+ziplinkSchema.statics.findByID = function (linkID, callback){
+	return this.findOne({'ziplinkID': linkID}, callback);
+};
 
 var Ziplink = mongoose.model('Ziplink', ziplinkSchema);
 
