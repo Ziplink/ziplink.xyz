@@ -3,6 +3,12 @@ var router = express.Router();
 
 var Ziplink = require('../models/Ziplink.js');
 
+/*// User display page, not yet implemented, should eventually have it's own router
+router.get('/@:userID', function(req, res, next){
+	res.render('user', {});
+});
+*/
+
 /*	Ziplink display page */
 /*	Final route before default to avoid pointless db queries */
 router.get('/:ziplinkID', function(req, res, next) {
@@ -18,9 +24,28 @@ router.get('/:ziplinkID', function(req, res, next) {
 
 });
 
-/* Route doesn't match anything else, render homepage */
-router.get('/*', function(req, res, next) {
+/* 
+ * Post route for creating new links
+ * Expects a Ziplink object to be passed as a JSON body
+ */
+router.post('/new', function(req, res, next){
+	var newZiplink = new Ziplink(req.body);
+	newZiplink.save(function(err){ //validation handled by model
+		if(err){
+			res.render('error', {message: err});
+		} else {
+			res.redirect('/' + newZiplink.ziplinkID);
+		}
+	}); 
+});
+
+/* Render homepage */
+router.get('/', function(req, res, next) {
 	res.render('error', { message: 'Homepage not yet implemented' });
 });
+
+
+
+
 
 module.exports = exports = router;

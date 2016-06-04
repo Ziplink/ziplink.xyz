@@ -4,9 +4,18 @@ var Schema = mongoose.Schema;
 
 //setup Ziplink schema
 var ziplinkSchema = new Schema({
-	ziplinkID: String,
+	ziplinkID: {
+		type: String,
+		required: true,
+		minlength: [1, 'Empty ziplinkID'],
+		maxlength: [64, 'ziplinkID too long']
+	},
 	sublinks: [{
-			url: String
+			url: {
+				type: String,
+				minlength: [4, 'URL too short'],
+				maxlength: [2083, 'URL too long']
+			}
 		}]
 });
 
