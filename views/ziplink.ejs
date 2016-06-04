@@ -1,11 +1,28 @@
 <% include includes/head %>
 
+    <div class="row">
+        <h5>Your ziplink: <strong><%= ziplinkData.ziplinkID %></strong></h5>
+    </div>
+
 	<!-- Data object passed to ziplink view is ziplinkData -->
 	<!-- <%= ziplinkData %> -->
 	<!-- ziplinkData is an object pulled direct from the DB which for now contains the entire DB document -->
 	<!-- See models/Ziplink.js for format -->
 
-	<p>Returned ziplink ID: <%= ziplinkData.ziplinkID %></p>
-	<p>Has sublinks: <%= ziplinkData.sublinks %></p>
+	<table class="u-full-width">
+      <thead>
+        <tr>
+          <th>Links</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% for(var i = 0; i < ziplinkData.sublinks.length; i++) { %>
+            <tr>
+                <td><a href="<%= ziplinkData.sublinks[i].url %>"><%= ziplinkData.sublinks[i].url %></td>
+            </tr>
+        <% } %>
+      </tbody>
+    </table>
+
 
 <% include includes/foot %>
