@@ -16,11 +16,11 @@
         </tr>
       </thead>
       <tbody>
-        <% for(var i = 0; i < ziplinkData.sublinks.length; i++) { %>
+        <% ziplinkData.sublinks.forEach(function(sublink) { %>
             <tr>
-                <td><a href="<%= ziplinkData.sublinks[i].url %>"><%= ziplinkData.sublinks[i].url %></td>
+                <td><a href="<%= sublink.url %>"><%= sublink.url %></td>
             </tr>
-        <% } %>
+        <% }); %>
       </tbody>
     </table>
 
