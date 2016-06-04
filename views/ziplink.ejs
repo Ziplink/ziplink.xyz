@@ -1,1 +1,11 @@
-<%= ziplinkData %>
+<% include includes/head %>
+
+	<!-- Data object passed to ziplink view is ziplinkData -->
+	<!-- <%= ziplinkData %> -->
+	<!-- ziplinkData is an object pulled direct from the DB which for now contains the entire DB document -->
+	<!-- See models/Ziplink.js for format -->
+
+	<p>Returned ziplink ID: <%= ziplinkData.ziplinkID %></p>
+	<p>Has sublinks: <%= ziplinkData.sublinks %></p>
+
+<% include includes/foot %>
