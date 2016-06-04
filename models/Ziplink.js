@@ -20,7 +20,32 @@ var ziplinkSchema = new Schema({
 });
 
 ziplinkSchema.statics.findByID = function (linkID, callback){
-	return this.findOne({'ziplinkID': linkID}, callback);
+	this.findOne({'ziplinkID': linkID}, callback);
+};
+
+/**
+ *	Creates a new Ziplink based on data passed in a ziplink template
+ *	
+ *	callback will be passed the arguments (err, ziplink)
+ */
+ziplinkSchema.statics.createZiplinkFromTemplate = function (ziplinkTemplate, callback){
+
+	var newZiplink = new this(ziplinkTemplate);
+
+	if(typeof newZiplink.ziplinkID != 'undefined'){
+		//a ziplinkID has been provided, check to make sure it doesn't already exist
+		this.findByID(newZiplink.ziplinkID, function(err, matchingZiplink){
+			if(err){ //check if there was an error
+				callback(err);
+			} else if(matchingZiplink != null){ //make sure we aren't doubling up on IDs
+				callback('ziplink with this ID already exists');
+			} else {
+				newZiplink.save(function(err){
+					callback(err, newZiplink);
+				});
+			}
+		});
+	}
 };
 
 var Ziplink = mongoose.model('Ziplink', ziplinkSchema);

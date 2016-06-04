@@ -20,15 +20,15 @@ router.get('/', function(req, res, next){
  */
 router.post('/', function(req, res, next){
 
-	console.log(req.body);
-	var newZiplink = new Ziplink(req.body);
-	newZiplink.save(function(err){ //validation handled by model
-		if(err){
-			res.render('error', {message: err});
+	Ziplink.createZiplinkFromTemplate(req.body, function(err, ziplink){
+		if(err != null){
+			var err = new Error(err);
+			err.status = 500;
+			next(err);
 		} else {
-			res.redirect('/' + newZiplink.ziplinkID);
+			res.redirect('/' + ziplink.ziplinkID);
 		}
-	}); 
+	});
 });
 
 module.exports = exports = router;

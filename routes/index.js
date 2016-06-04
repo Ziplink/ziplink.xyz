@@ -1,10 +1,9 @@
 var express = require('express');
 var router = express.Router();
 
-var newRoute = require('./new.js');
-
-//Reference to Ziplink model
 var Ziplink = require('../models/Ziplink.js');
+
+var newRoute = require('./new.js');var newRoute = require('./new.js');
 
 router.use('/new', newRoute);
 
