@@ -3,7 +3,7 @@ var router = express.Router();
 
 var Ziplink = require('../models/Ziplink.js');
 
-var newRoute = require('./new.js');var newRoute = require('./new.js');
+var newRoute = require('./new.js');
 
 router.use('/new', newRoute);
 
