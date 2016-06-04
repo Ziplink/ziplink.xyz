@@ -1,0 +1,15 @@
+<% include includes/head %>
+
+  <!-- Temporary testing form -->
+
+  	<form action="/new" method="post">
+  		<label for="ziplinkID">ziplinkID</label>
+  		<input type="text" id="ziplinkID" name="ziplinkID">
+  		<label for="sublinks0">sublinks[0]</label>
+  		<input type="text" id="sublinks0" name="sublinks[0][url]">
+  		<label for="sublinks1">sublinks[1]</label>
+  		<input type="text" id="sublinks1" name="sublinks[1][url]">
+  		<button type="submit">Submit</button>
+  	</form>
+
+<% include includes/foot %>

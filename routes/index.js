@@ -24,11 +24,17 @@ router.get('/:ziplinkID', function(req, res, next) {
 
 });
 
+router.get('/new', function(req, res, next){
+	res.render('newZiplink', {});
+});
+
 /* 
  * Post route for creating new links
  * Expects a Ziplink object to be passed as a JSON body
  */
 router.post('/new', function(req, res, next){
+
+	console.log(req.body);
 	var newZiplink = new Ziplink(req.body);
 	newZiplink.save(function(err){ //validation handled by model
 		if(err){
