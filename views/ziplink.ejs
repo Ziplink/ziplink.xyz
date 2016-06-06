@@ -18,11 +18,13 @@
       <tbody>
         <% ziplinkData.sublinks.forEach(function(sublink) { %>
             <tr>
-                <td><a href="<%= sublink.url %>"><%= sublink.url %></td>
+                <td><a class="ziplink" href="<%= sublink.url %>"><%= sublink.url %></td>
             </tr>
         <% }); %>
       </tbody>
     </table>
+
+    <button type="button" id="openAll">Open All</button>
 
 
 <% include includes/foot %>
