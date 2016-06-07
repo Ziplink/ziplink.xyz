@@ -41,31 +41,28 @@ ziplinkSchema.statics.findByID = function (linkID, callback){
  */
 ziplinkSchema.statics.createZiplinkFromTemplate = function (ziplinkTemplate, callback){
 
+	//If ziplinkTemplate has a blank ziplinkID, remove it to make way for a generated default
+	if(ziplinkTemplate.ziplinkID == '')
+		delete ziplinkTemplate.ziplinkID;
+
 	// Pull the protocol off the URL
 	// This doesn't do any protocol checking, that is done by the supplied enum.
 	ziplinkTemplate.sublinks.forEach(function(sublink) {
 		var urlObject = url.parse(sublink.url);
 
 		// If `url` fails to parse the given URL we assume it's malformed in a way
-		// and attempt to fix it.
-		if(urlObject === null) {
-			var fixedUrl = 'http://' + sublink.url;
-
-			// Attempt again to parse it
-			urlObject = url.parse(fixedUrl);
-
-			// See if we fail again if so throw an error
-			if(urlObject === null)
+		// and discard it
+		if(urlObject === null)
 				callback('The URL: ' + sublink.url + ' isn\'t a valid URL');
-		}
 
-		// Also check if the URL parsing succeeds but we don't get a protocol
-		// assume http
+		// If we don't get a protocol, remove reference so mongoose uses default
 		if(urlObject.protocol === null)
 			delete urlObject.protocol;
 
-		var protocol = urlObject.protocol;
-		sublink.protocol = protocol;
+		sublink.protocol = urlObject.protocol;
+		
+		//TODO: possibly store this information in component parts in DB
+		sublink.url = urlObject.host + urlObject.path + urlObject.hash;
 	});
 
 	var newZiplink = new this(ziplinkTemplate);
