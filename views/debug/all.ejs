@@ -9,11 +9,13 @@
           </tr>
         </thead>
         <tbody>
-          <% ziplink.sublinks.forEach(function(sublink) { %>
-              <tr>
-                  <td><a class="ziplink" href="<%= sublink.protocol + '\/\/' + sublink.url %>"><%= sublink.protocol + '\/\/' + sublink.url %></td>
-              </tr>
-          <% }); %>
+          <tr>
+            <td>
+              <% ziplink.sublinks.forEach(function(sublink) { %>
+                <a class="ziplink" href="<%= sublink.protocol + '\/\/' + sublink.url %>"><%= sublink.protocol + '\/\/' + sublink.url %></a>,
+              <% }); %>
+            </td>
+          </tr>
         </tbody>
       </table>
     </div>

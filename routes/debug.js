@@ -12,7 +12,6 @@ var Ziplink = require('../models/Ziplink.js');
 
 router.get('/all', function(req, res, next){
 	Ziplink.find({}, function(err, ziplinks){
-		console.log(ziplinks);
 		res.render('debug/all', { ziplinks: ziplinks });
 	});
 });
