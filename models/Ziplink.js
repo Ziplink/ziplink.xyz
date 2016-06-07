@@ -1,7 +1,6 @@
 var mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost/ziplink');
 var Schema = mongoose.Schema;
-var console = require('console');
 
 var shortid = require('shortid');
 const url = require('url');
@@ -49,12 +48,9 @@ ziplinkSchema.statics.createZiplinkFromTemplate = function (ziplinkTemplate, cal
 	// Pull the protocol off the URL
 	// This doesn't do any protocol checking, that is done by the supplied enum.
 	ziplinkTemplate.sublinks.forEach(function(sublink) {
-		var urlObject = url.parse(sublink);
+		var urlObject = url.parse(sublink.url);
 		var protocol = urlObject.protocol;
-
-		console.log(protocol);
-		console.log(urlObject);
-
+		
 		sublink.protocol = protocol;
 	});
 
