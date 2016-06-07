@@ -1,11 +1,16 @@
 var express = require('express');
+
 var router = express.Router();
 
 var Ziplink = require('../models/Ziplink.js');
 
 var newRoute = require('./new.js');
+var debugRoute = require('./debug.js');
 
 router.use('/new', newRoute);
+
+if (process.env.NODE_ENV || 'development' == 'development')
+	router.use('/debug', debugRoute);
 
 /* Render homepage */
 router.get('/', function(req, res, next) {
