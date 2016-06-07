@@ -62,7 +62,7 @@ ziplinkSchema.statics.createZiplinkFromTemplate = function (ziplinkTemplate, cal
 		sublink.protocol = urlObject.protocol;
 		
 		//TODO: possibly store this information in component parts in DB
-		sublink.url = urlObject.host + urlObject.path + urlObject.hash;
+		sublink.url = urlObject.host || '' + urlObject.path || '' + urlObject.hash || '';
 	});
 
 	var newZiplink = new this(ziplinkTemplate);
