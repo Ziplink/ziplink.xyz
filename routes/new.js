@@ -24,6 +24,7 @@ router.post('/', function(req, res, next){
 		if(err != null){
 			var err = new Error(err);
 			err.status = 500;
+			err.message = "Error creating ziplink";
 			next(err);
 		} else {
 			res.redirect('/' + ziplink.ziplinkID);

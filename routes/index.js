@@ -9,7 +9,10 @@ router.use('/new', newRoute);
 
 /* Render homepage */
 router.get('/', function(req, res, next) {
-	res.render('error', { message: 'Homepage not yet implemented' });
+	var err = new Error(err);
+	err.status = 404;
+	err.message = "Homepage not yet implemented";
+	next(err);
 });
 
 /*	Ziplink display page */
@@ -20,7 +23,10 @@ router.get('/:ziplinkID', function(req, res, next) {
 		if(!err && ziplinkData){
 			res.render('ziplink', { ziplinkData: ziplinkData });
 		} else {
-			next();
+			var err = new Error(err);
+			err.status = 404;
+			err.message = "Ziplink with ID " + req.params.ziplinkID + " not found";
+			next(err);
 		}
 	});
 
