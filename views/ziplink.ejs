@@ -18,7 +18,7 @@
       <tbody>
         <% ziplinkData.sublinks.forEach(function(sublink) { %>
             <tr>
-                <td><a class="ziplink" href="<%= sublink.url %>"><%= sublink.url %></td>
+                <td><a class="ziplink" href="<%= sublink.protocol + '\/\/' + sublink.url %>"><%= sublink.protocol + '\/\/' + sublink.url %></td>
             </tr>
         <% }); %>
       </tbody>

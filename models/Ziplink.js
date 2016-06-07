@@ -25,7 +25,7 @@ var ziplinkSchema = new Schema({
 				type: String,
 				default: 'http:',
 				required: true,
-				enum: [ 'http:', 'https:' ]
+				enum: [ 'http:', 'https:', 'ftp:' ]
 			}
 		}]
 });
