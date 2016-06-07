@@ -1,15 +1,68 @@
 <% include includes/head %>
 
-  <!-- Temporary testing form -->
+<form action="/new" method="post" id="newZiplink">
+	<div class="row">
+		<div class="u-full-width">
+			<label for="ziplinkID">Custom Ziplink</label>
+			<input type="text" id="ziplinkID" name="ziplinkID" class="field" pattern="[a-zA-Z0-9]+" />
+		</div>
+	</div>
 
-  	<form action="/new" method="post">
-  		<label for="ziplinkID">ziplinkID</label>
-  		<input type="text" id="ziplinkID" name="ziplinkID">
-  		<label for="sublinks0">sublinks[0]</label>
-  		<input type="text" id="sublinks0" name="sublinks[0][url]">
-  		<label for="sublinks1">sublinks[1]</label>
-  		<input type="text" id="sublinks1" name="sublinks[1][url]">
-  		<button type="submit">Submit</button>
-  	</form>
+	<label for="urls">URLs</label>
+	<input type="text" id="url" name="sublinks[0][url]" class="field u-full-width" required placeholder="Enter a URL here..." autofocus />
+
+	<br/>
+	<hr/>
+
+	<input class="button-primary u-pull-right" type="submit" value="Submit">
+</form>
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/validate.js/0.10.0/validate.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.15.0/jquery.validate.min.js"></script>
+<script type="text/javascript">
+//	var supportedProtocols = [ 'http', 'https', 'ftp' ];
+//
+//	function parseUrl(url) {
+//		var splitString  = url.split(':');
+//
+//		if(splitString[0] === url) {
+//			return parseUrl('http://' + url);
+//		} else if(supportedProtocols.indexOf(splitString[0] !== -1)) {
+//			return url;
+//		}
+//	}
+//
+//	var url = 'www.google.com';
+//
+//	var validated = validate({ website: parseUrl(url) }, {
+//		website: {
+//			url: {
+//				schemes: supportedProtocols
+//			}
+//		}
+//	});
+//
+//	if(validated === undefined)
+//			console.log("URL is valid");
+//
+
+$(document).ready(function() {
+	// Bind an event handler to the last field
+	var fields = 1;
+	function bindLastField() {
+
+	}
+
+	// Bind to the first text field.
+	$("input[type='text']").on('input', function() {
+		if($(this).val() === 'test') {
+			console.log("Assume validation has succeeded");
+
+			$('#url').after('<input type="text" id="url" name="sublinks[0][url]" class="field u-full-width" required placeholder="Enter a URL here..." autofocus />').fadeIn();
+		}
+	})
+});
+
+</script>
 
 <% include includes/foot %>
