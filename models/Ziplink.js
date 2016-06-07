@@ -41,10 +41,6 @@ ziplinkSchema.statics.findByID = function (linkID, callback){
  */
 ziplinkSchema.statics.createZiplinkFromTemplate = function (ziplinkTemplate, callback){
 
-	//If ziplinkTemplate has a blank ziplinkID, remove it to make way for a generated default
-	if(ziplinkTemplate.ziplinkID == '')
-		delete ziplinkTemplate.ziplinkID;
-
 	// Pull the protocol off the URL
 	// This doesn't do any protocol checking, that is done by the supplied enum.
 	ziplinkTemplate.sublinks.forEach(function(sublink) {
