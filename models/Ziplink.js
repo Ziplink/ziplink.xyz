@@ -3,12 +3,13 @@ mongoose.connect('mongodb://localhost/ziplink');
 var Schema = mongoose.Schema;
 
 var shortid = require('shortid');
+const url = require('url');
 
 //setup Ziplink schema
 var ziplinkSchema = new Schema({
 	ziplinkID: {
 		type: String,
-		'default': shortid.generate,
+		default: shortid.generate,
 		required: true,
 		minlength: [1, 'Empty ziplinkID'],
 		maxlength: [64, 'ziplinkID too long']
@@ -16,8 +17,15 @@ var ziplinkSchema = new Schema({
 	sublinks: [{
 			url: {
 				type: String,
+				required: true,
 				minlength: [4, 'URL too short'],
 				maxlength: [2083, 'URL too long']
+			},
+			protocol: {
+				type: String,
+				default: 'http:',
+				required: true,
+				enum: [ 'http:', 'https:', 'ftp:' ]
 			}
 		}]
 });
@@ -37,6 +45,26 @@ ziplinkSchema.statics.createZiplinkFromTemplate = function (ziplinkTemplate, cal
 	if(ziplinkTemplate.ziplinkID == '')
 		delete ziplinkTemplate.ziplinkID;
 
+	// Pull the protocol off the URL
+	// This doesn't do any protocol checking, that is done by the supplied enum.
+	ziplinkTemplate.sublinks.forEach(function(sublink) {
+		var urlObject = url.parse(sublink.url);
+
+		// If `url` fails to parse the given URL we assume it's malformed in a way
+		// and discard it
+		if(urlObject === null)
+				callback('The URL: ' + sublink.url + ' isn\'t a valid URL');
+
+		// If we don't get a protocol, remove reference so mongoose uses default
+		if(urlObject.protocol === null)
+			delete urlObject.protocol;
+
+		sublink.protocol = urlObject.protocol;
+		
+		//TODO: possibly store this information in component parts in DB
+		sublink.url = urlObject.host || '' + urlObject.path || '' + urlObject.hash || '';
+	});
+
 	var newZiplink = new this(ziplinkTemplate);
 
 	this.findByID(newZiplink.ziplinkID, function(err, matchingZiplink){
@@ -46,6 +74,7 @@ ziplinkSchema.statics.createZiplinkFromTemplate = function (ziplinkTemplate, cal
 			callback('ziplink with this ID already exists');
 		} else {
 			newZiplink.save(function(err){
+				console.log(err);
 				callback(err, newZiplink);
 			});
 		}
