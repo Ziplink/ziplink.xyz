@@ -1,0 +1,23 @@
+<% include ../includes/head %>
+  <h5>All Ziplinks in DB</h5>
+  <% ziplinks.forEach(function(ziplink){ %>
+    <div class="row">
+      <table class="u-full-width">
+        <thead>
+          <tr>
+            <th><%= ziplink.ziplinkID %></th>
+          </tr>
+        </thead>
+        <tbody>
+          <% ziplink.sublinks.forEach(function(sublink) { %>
+              <tr>
+                  <td><a class="ziplink" href="<%= sublink.protocol + '\/\/' + sublink.url %>"><%= sublink.protocol + '\/\/' + sublink.url %></td>
+              </tr>
+          <% }); %>
+        </tbody>
+      </table>
+    </div>
+  <% }); %>
+
+
+<% include ../includes/foot %>
