@@ -1,14 +1,16 @@
 var mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost/ziplink');
 var Schema = mongoose.Schema;
+var console = require('console');
 
 var shortid = require('shortid');
+const url = require('url');
 
 //setup Ziplink schema
 var ziplinkSchema = new Schema({
 	ziplinkID: {
 		type: String,
-		'default': shortid.generate,
+		default: shortid.generate,
 		required: true,
 		minlength: [1, 'Empty ziplinkID'],
 		maxlength: [64, 'ziplinkID too long']
@@ -16,8 +18,15 @@ var ziplinkSchema = new Schema({
 	sublinks: [{
 			url: {
 				type: String,
+				required: true,
 				minlength: [4, 'URL too short'],
 				maxlength: [2083, 'URL too long']
+			},
+			protocol: {
+				type: String,
+				default: 'http:',
+				required: true,
+				enum: [ 'http:', 'https:' ]
 			}
 		}]
 });
@@ -37,6 +46,18 @@ ziplinkSchema.statics.createZiplinkFromTemplate = function (ziplinkTemplate, cal
 	if(ziplinkTemplate.ziplinkID == '')
 		delete ziplinkTemplate.ziplinkID;
 
+	// Pull the protocol off the URL
+	// This doesn't do any protocol checking, that is done by the supplied enum.
+	ziplinkTemplate.sublinks.forEach(function(sublink) {
+		var urlObject = url.parse(sublink);
+		var protocol = urlObject.protocol;
+
+		console.log(protocol);
+		console.log(urlObject);
+
+		sublink.protocol = protocol;
+	});
+
 	var newZiplink = new this(ziplinkTemplate);
 
 	this.findByID(newZiplink.ziplinkID, function(err, matchingZiplink){
@@ -46,6 +67,7 @@ ziplinkSchema.statics.createZiplinkFromTemplate = function (ziplinkTemplate, cal
 			callback('ziplink with this ID already exists');
 		} else {
 			newZiplink.save(function(err){
+				console.log(err);
 				callback(err, newZiplink);
 			});
 		}
