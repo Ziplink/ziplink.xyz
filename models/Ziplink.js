@@ -103,6 +103,10 @@ ziplinkSchema.statics.createZiplinkFromTemplate = function (ziplinkTemplate, cal
 	});
 };
 
+ziplinkSchema.methods.getEncodedID = function(){
+	return base.decToGeneric(this._id, ID_ALPHABET);
+};
+
 var Ziplink = connection.model('Ziplink', ziplinkSchema);
 
 //Export the Ziplink model

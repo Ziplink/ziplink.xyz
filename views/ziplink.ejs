@@ -1,7 +1,7 @@
 <% include includes/head %>
 
     <div class="row">
-        <h5>Your ziplink: <strong><%= ziplinkData.ziplinkID %></strong></h5>
+        <h5>Your ziplink: <strong><%= ziplinkData.ziplinkID %></strong> : <a href='/<%= ziplinkData.getEncodedID() %>'><%= ziplinkData.getEncodedID() %></a></h5>
     </div>
 
 	<!-- Data object passed to ziplink view is ziplinkData -->

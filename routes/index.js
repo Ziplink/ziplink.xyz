@@ -9,7 +9,8 @@ var debugRoute = require('./debug.js');
 
 router.use('/new', newRoute);
 
-if (process.env.NODE_ENV || 'development' == 'development')
+//If NODE_ENV is undefined or 'development', use the debug route
+if ((process.env.NODE_ENV || 'development') == 'development')
 	router.use('/debug', debugRoute);
 
 for(var i = 0; i < 1000; i++){
@@ -28,7 +29,7 @@ router.get('/', function(req, res, next) {
 router.get('/:ziplinkID', function(req, res, next) {
 
 	//Query DB for ziplink with a matching ID
-	Ziplink.findByZiplinkID(req.params.ziplinkID, function(err, ziplinkData){
+	Ziplink.findByEncodedID(req.params.ziplinkID, function(err, ziplinkData){
 		if(!err && ziplinkData){
 			res.render('ziplink', { ziplinkData: ziplinkData });
 		} else {
