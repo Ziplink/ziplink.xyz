@@ -12,6 +12,10 @@ router.use('/new', newRoute);
 if (process.env.NODE_ENV || 'development' == 'development')
 	router.use('/debug', debugRoute);
 
+for(var i = 0; i < 1000; i++){
+	Ziplink.findByEncodedID(i);
+}
+
 /* Render homepage */
 router.get('/', function(req, res, next) {
 	var err = new Error(err);
@@ -24,7 +28,7 @@ router.get('/', function(req, res, next) {
 router.get('/:ziplinkID', function(req, res, next) {
 
 	//Query DB for ziplink with a matching ID
-	Ziplink.findByID(req.params.ziplinkID, function(err, ziplinkData){
+	Ziplink.findByZiplinkID(req.params.ziplinkID, function(err, ziplinkData){
 		if(!err && ziplinkData){
 			res.render('ziplink', { ziplinkData: ziplinkData });
 		} else {

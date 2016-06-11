@@ -1,9 +1,16 @@
-var mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/ziplink');
-var Schema = mongoose.Schema;
+var mongoose = require('mongoose'),
+	Schema = mongoose.Schema,
+	autoIncrement = require('mongoose-auto-increment');
+
+var connection = mongoose.createConnection('mongodb://localhost/ziplink');
+
+autoIncrement.initialize(connection);
 
 var shortid = require('shortid');
-const url = require('url');
+var url = require('url');
+var base = require('base-converter');
+
+var ID_ALPHABET = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890';
 
 //setup Ziplink schema
 var ziplinkSchema = new Schema({
@@ -11,6 +18,7 @@ var ziplinkSchema = new Schema({
 		type: String,
 		default: shortid.generate,
 		required: true,
+		index: true,
 		minlength: [1, 'Empty ziplinkID'],
 		maxlength: [64, 'ziplinkID too long']
 	},
@@ -30,8 +38,22 @@ var ziplinkSchema = new Schema({
 		}]
 });
 
-ziplinkSchema.statics.findByID = function (linkID, callback){
+/**
+ *	Add the autoIncrement plugin to the schema
+ *	Sets the _id of each Ziplink to the previous _id+1
+ */
+ziplinkSchema.plugin(autoIncrement.plugin, 'Ziplink');
+
+ziplinkSchema.statics.findByZiplinkID = function (linkID, callback){
 	this.findOne({'ziplinkID': linkID}, callback);
+};
+
+ziplinkSchema.statics.findByEncodedID = function(encodedID, callback){
+	this.findByDecodedID(base.genericToDec(encodedID, ID_ALPHABET), callback);
+};
+
+ziplinkSchema.statics.findByDecodedID = function(decodedID, callback){
+	this.findById(decodedID, callback);
 };
 
 /**
@@ -67,7 +89,7 @@ ziplinkSchema.statics.createZiplinkFromTemplate = function (ziplinkTemplate, cal
 
 	var newZiplink = new this(ziplinkTemplate);
 
-	this.findByID(newZiplink.ziplinkID, function(err, matchingZiplink){
+	this.findByZiplinkID(newZiplink.ziplinkID, function(err, matchingZiplink){
 		if(err){ //check if there was an error
 			callback(err);
 		} else if(matchingZiplink != null){ //make sure we aren't doubling up on IDs
@@ -81,7 +103,7 @@ ziplinkSchema.statics.createZiplinkFromTemplate = function (ziplinkTemplate, cal
 	});
 };
 
-var Ziplink = mongoose.model('Ziplink', ziplinkSchema);
+var Ziplink = connection.model('Ziplink', ziplinkSchema);
 
 //Export the Ziplink model
 //Can then use this model with new Ziplink({});
