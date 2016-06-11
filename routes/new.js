@@ -27,7 +27,7 @@ router.post('/', function(req, res, next){
 			err.message = "Error creating ziplink";
 			next(err);
 		} else {
-			res.redirect('/' + ziplink.ziplinkID);
+			res.redirect('/' + ziplink.getEncodedID());
 		}
 	});
 });

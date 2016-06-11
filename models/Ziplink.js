@@ -14,13 +14,10 @@ var ID_ALPHABET = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ123456789
 
 //setup Ziplink schema
 var ziplinkSchema = new Schema({
-	ziplinkID: {
+	name: {
 		type: String,
-		default: shortid.generate,
-		required: true,
-		index: true,
-		minlength: [1, 'Empty ziplinkID'],
-		maxlength: [64, 'ziplinkID too long']
+		default: "Ziplink",
+		maxlength: [64, 'Name too long']
 	},
 	sublinks: [{
 			url: {
@@ -63,10 +60,6 @@ ziplinkSchema.statics.findByDecodedID = function(decodedID, callback){
  */
 ziplinkSchema.statics.createZiplinkFromTemplate = function (ziplinkTemplate, callback){
 
-	//If ziplinkTemplate has a blank ziplinkID, remove it to make way for a generated default
-	if(ziplinkTemplate.ziplinkID == '')
-		delete ziplinkTemplate.ziplinkID;
-
 	// Pull the protocol off the URL
 	// This doesn't do any protocol checking, that is done by the supplied enum.
 	ziplinkTemplate.sublinks.forEach(function(sublink) {
@@ -89,17 +82,9 @@ ziplinkSchema.statics.createZiplinkFromTemplate = function (ziplinkTemplate, cal
 
 	var newZiplink = new this(ziplinkTemplate);
 
-	this.findByZiplinkID(newZiplink.ziplinkID, function(err, matchingZiplink){
-		if(err){ //check if there was an error
-			callback(err);
-		} else if(matchingZiplink != null){ //make sure we aren't doubling up on IDs
-			callback('ziplink with this ID already exists');
-		} else {
-			newZiplink.save(function(err){
-				console.log(err);
-				callback(err, newZiplink);
-			});
-		}
+	newZiplink.save(function(err){
+		console.log(err);
+		callback(err, newZiplink);
 	});
 };
 

@@ -26,16 +26,16 @@ router.get('/', function(req, res, next) {
 });
 
 /*	Ziplink display page */
-router.get('/:ziplinkID', function(req, res, next) {
+router.get('/:encodedID', function(req, res, next) {
 
 	//Query DB for ziplink with a matching ID
-	Ziplink.findByEncodedID(req.params.ziplinkID, function(err, ziplinkData){
+	Ziplink.findByEncodedID(req.params.encodedID, function(err, ziplinkData){
 		if(!err && ziplinkData){
 			res.render('ziplink', { ziplinkData: ziplinkData });
 		} else {
 			var err = new Error(err);
 			err.status = 404;
-			err.message = "Ziplink with ID " + req.params.ziplinkID + " not found";
+			err.message = "Ziplink with ID " + req.params.encodedID + " not found";
 			next(err);
 		}
 	});
