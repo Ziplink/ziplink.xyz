@@ -1,10 +1,35 @@
 var dbURI		= 'mongodb://localhost/ziplink',
 	expect		= require('chai').expect,
 	mongoose	= require('mongoose'),
-	Ziplink		= require('../../models/Ziplink.js'),
-	clearDB		= require('mocha-mongoose')(dbURI, {noClear: true})
+	Ziplink		= require('../../models/Ziplink.js')
 	;
 
+describe('Emptying Database', function(){
+	before(function(done){
+		if(mongoose.connection.db) return done();
+		mongoose.connect(dbURI, done);
+	});
+
+	it('can be emptied', function(done){
+		Ziplink.emptyDB(done);
+	});
+
+	it('has no entries after being emptied', function(done){
+		Ziplink.count({}, function(err, count){
+			expect(count).to.equal(0);
+			done(err);
+		});
+	});
+
+	it('has a next index of 1 after being emptied', function(done){
+		Ziplink.nextCount(function(err, count){
+			expect(count).to.equal(1);
+			done(err);
+		});
+	});
+
+
+});
 
 
 describe('Standard Ziplink with 1 sublink', function(){
