@@ -1,18 +1,23 @@
-var mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/ziplink');
-var Schema = mongoose.Schema;
+var mongoose = require('mongoose'),
+	Schema = mongoose.Schema,
+	autoIncrement = require('mongoose-auto-increment');
+
+var connection = mongoose.createConnection('mongodb://localhost/ziplink');
+
+autoIncrement.initialize(connection);
 
 var shortid = require('shortid');
-const url = require('url');
+var url = require('url');
+var base = require('base-converter');
+
+var ID_ALPHABET = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890';
 
 //setup Ziplink schema
 var ziplinkSchema = new Schema({
-	ziplinkID: {
+	name: {
 		type: String,
-		default: shortid.generate,
-		required: true,
-		minlength: [1, 'Empty ziplinkID'],
-		maxlength: [64, 'ziplinkID too long']
+		default: "Ziplink",
+		maxlength: [64, 'Name too long']
 	},
 	sublinks: [{
 			url: {
@@ -30,8 +35,22 @@ var ziplinkSchema = new Schema({
 		}]
 });
 
-ziplinkSchema.statics.findByID = function (linkID, callback){
+/**
+ *	Add the autoIncrement plugin to the schema
+ *	Sets the _id of each Ziplink to the previous _id+1
+ */
+ziplinkSchema.plugin(autoIncrement.plugin, 'Ziplink');
+
+ziplinkSchema.statics.findByZiplinkID = function (linkID, callback){
 	this.findOne({'ziplinkID': linkID}, callback);
+};
+
+ziplinkSchema.statics.findByEncodedID = function(encodedID, callback){
+	this.findByDecodedID(base.genericToDec(encodedID, ID_ALPHABET), callback);
+};
+
+ziplinkSchema.statics.findByDecodedID = function(decodedID, callback){
+	this.findById(decodedID, callback);
 };
 
 /**
@@ -40,10 +59,6 @@ ziplinkSchema.statics.findByID = function (linkID, callback){
  *	callback will be passed the arguments (err, ziplink)
  */
 ziplinkSchema.statics.createZiplinkFromTemplate = function (ziplinkTemplate, callback){
-
-	//If ziplinkTemplate has a blank ziplinkID, remove it to make way for a generated default
-	if(ziplinkTemplate.ziplinkID == '')
-		delete ziplinkTemplate.ziplinkID;
 
 	// Pull the protocol off the URL
 	// This doesn't do any protocol checking, that is done by the supplied enum.
@@ -67,21 +82,17 @@ ziplinkSchema.statics.createZiplinkFromTemplate = function (ziplinkTemplate, cal
 
 	var newZiplink = new this(ziplinkTemplate);
 
-	this.findByID(newZiplink.ziplinkID, function(err, matchingZiplink){
-		if(err){ //check if there was an error
-			callback(err);
-		} else if(matchingZiplink != null){ //make sure we aren't doubling up on IDs
-			callback('ziplink with this ID already exists');
-		} else {
-			newZiplink.save(function(err){
-				console.log(err);
-				callback(err, newZiplink);
-			});
-		}
+	newZiplink.save(function(err){
+		console.log(err);
+		callback(err, newZiplink);
 	});
 };
 
-var Ziplink = mongoose.model('Ziplink', ziplinkSchema);
+ziplinkSchema.methods.getEncodedID = function(){
+	return base.decToGeneric(this._id, ID_ALPHABET);
+};
+
+var Ziplink = connection.model('Ziplink', ziplinkSchema);
 
 //Export the Ziplink model
 //Can then use this model with new Ziplink({});

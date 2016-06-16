@@ -5,14 +5,14 @@
       <table class="u-full-width">
         <thead>
           <tr>
-            <th><%= ziplink.ziplinkID %></th>
+            <th><%= ziplink.name %> : <a href='/<%= ziplink.getEncodedID() %>'><%= ziplink.getEncodedID() %></a></th>
           </tr>
         </thead>
         <tbody>
           <tr>
             <td>
               <% ziplink.sublinks.forEach(function(sublink) { %>
-                <a class="ziplink" href="<%= sublink.protocol + '\/\/' + sublink.url %>"><%= sublink.protocol + '\/\/' + sublink.url %></a>,
+                <a class='ziplink' href='<%= sublink.protocol + '\/\/' + sublink.url %>'><%= sublink.protocol + '\/\/' + sublink.url %></a>,
               <% }); %>
             </td>
           </tr>
