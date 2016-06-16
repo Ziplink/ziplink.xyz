@@ -102,7 +102,6 @@ ziplinkSchema.statics.createZiplinkFromTemplate = function (ziplinkTemplate, cal
 	var newZiplink = new this(ziplinkTemplate);
 
 	newZiplink.save(function(err){
-		console.log(err);
 		callback(err, newZiplink);
 	});
 };
