@@ -39,7 +39,11 @@ var ziplinkSchema = new Schema({
  *	Add the autoIncrement plugin to the schema
  *	Sets the _id of each Ziplink to the previous _id+1
  */
-ziplinkSchema.plugin(autoIncrement.plugin, 'Ziplink');
+ziplinkSchema.plugin(autoIncrement.plugin, {
+	model: 'Ziplink',
+	field: '_id',
+	startAt: 1
+});
 
 ziplinkSchema.statics.findByZiplinkID = function (linkID, callback){
 	this.findOne({'ziplinkID': linkID}, callback);
@@ -51,6 +55,21 @@ ziplinkSchema.statics.findByEncodedID = function(encodedID, callback){
 
 ziplinkSchema.statics.findByDecodedID = function(decodedID, callback){
 	this.findById(decodedID, callback);
+};
+
+/**
+ * Empties the database and resets the counter, mainly for testing
+ */
+ziplinkSchema.statics.emptyDB = function(callback){
+	//Keep a reference so we can call resetCount after we lose the 'this' reference
+	var resetCount = this.resetCount;
+	this.remove({}, function(err){
+		if(err)
+			callback(err);
+		resetCount(function(err, nextCount){
+			callback(err, nextCount);
+		});
+	});
 };
 
 /**
