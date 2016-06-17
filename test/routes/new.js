@@ -36,7 +36,7 @@ describe('new.js routes', function(){
 		});
 
 		//Post a new Ziplink to the /new route
-		it('returns status 302, returns valid redirect', function(done){
+		it('returns status 302', function(done){
 			request.post({
 				url: ROOT_URL,
 				form: ZIPLINK_POST_FORM_TEMPLATE,
@@ -46,10 +46,12 @@ describe('new.js routes', function(){
 
 				//Store the newZiplinkID, removing the leading '/'
 				newZiplinkID = response.headers.location.slice(1);
-				expect(newZiplinkID).to.have.length.above(0);
-
 				done();
 			});
+		});
+
+		it('returns valid redirect address', function(){
+			expect(newZiplinkID).to.have.length.above(0);
 		});
 
 		it('is saved to the database', function(done){
