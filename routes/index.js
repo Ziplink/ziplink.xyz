@@ -10,7 +10,7 @@ var debugRoute = require('./debug.js');
 router.use('/new', newRoute);
 
 //If NODE_ENV is undefined or 'development', use the debug route
-if ((process.env.NODE_ENV || 'development') == 'development')
+if ((process.env.NODE_ENV || 'development') != 'production')
 	router.use('/debug', debugRoute);
 
 for(var i = 0; i < 1000; i++){
