@@ -27,9 +27,9 @@ describe('index.js routes', function(){
 	describe('Front Page', function(){
 
 		it('returns status 200', function(done){
-			request(ROOT_URL, function(error, response, body){
+			request(ROOT_URL, function(err, response, body){
 				expect(response.statusCode).to.equal(200);
-				done();
+				done(err);
 			});
 		});
 
@@ -46,15 +46,15 @@ describe('index.js routes', function(){
 					//If there's an error creating the ziplink with this method, the model is broken
 					if(err) return done(err);
 					testZiplinkID = ziplink.getEncodedID();
-					done();
+					done(err);
 				});
 			});
 		});
 
 		it('returns status 200', function(done){
-			request(ROOT_URL + testZiplinkID, function(error, response, body){
+			request(ROOT_URL + testZiplinkID, function(err, response, body){
 				expect(response.statusCode).to.equal(200);
-				done();
+				done(err);
 			});
 		});
 	});

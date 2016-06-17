@@ -21,9 +21,9 @@ describe('new.js routes', function(){
 
 	describe('New Ziplink Form', function(){
 		it('returns status 200', function(done){
-			request(ROOT_URL, function(error, response, body){
+			request(ROOT_URL, function(err, response, body){
 				expect(response.statusCode).to.equal(200);
-				done();
+				done(err);
 			});
 		});
 	});
@@ -46,7 +46,7 @@ describe('new.js routes', function(){
 
 				//Store the newZiplinkID, removing the leading '/'
 				newZiplinkID = response.headers.location.slice(1);
-				done();
+				done(err);
 			});
 		});
 
