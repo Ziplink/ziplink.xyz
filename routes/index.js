@@ -20,7 +20,7 @@ for(var i = 0; i < 1000; i++){
 /* Render homepage */
 router.get('/', function(req, res, next) {
 	var err = new Error(err);
-	err.status = 404;
+	err.status = 200;
 	err.message = "Homepage not yet implemented";
 	next(err);
 });
