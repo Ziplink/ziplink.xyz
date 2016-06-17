@@ -10,7 +10,7 @@ var debugRoute = require('./debug.js');
 router.use('/new', newRoute);
 
 //If NODE_ENV is undefined or 'development', use the debug route
-if ((process.env.NODE_ENV || 'development') == 'development')
+if ((process.env.NODE_ENV || 'development') != 'production')
 	router.use('/debug', debugRoute);
 
 for(var i = 0; i < 1000; i++){
@@ -20,7 +20,7 @@ for(var i = 0; i < 1000; i++){
 /* Render homepage */
 router.get('/', function(req, res, next) {
 	var err = new Error(err);
-	err.status = 404;
+	err.status = 200;
 	err.message = "Homepage not yet implemented";
 	next(err);
 });
