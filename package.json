@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
-    "test": "mocha --reporter spec --recursive"
+    "test": "export NODE_ENV=test||set NODE_ENV=test&&mocha --reporter spec --recursive"
   },
   "dependencies": {
     "base-converter": "^1.1.2",
