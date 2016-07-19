@@ -8,7 +8,7 @@
 var express = require('express');
 var router = express.Router();
 
-var Ziplink = require('../models/Ziplink.js');
+var Ziplink = require('ziplink-basic-mongo-storage');
 
 router.get('/all', function(req, res, next){
 	Ziplink.find({}, function(err, ziplinks){

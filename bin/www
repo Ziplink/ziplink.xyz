@@ -87,4 +87,5 @@ function onListening() {
     ? 'pipe ' + addr
     : 'port ' + addr.port;
   debug('Listening on ' + bind);
+  debug('C9_HOSTNAME: ' + process.env.C9_HOSTNAME);
 }
