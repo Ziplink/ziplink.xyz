@@ -13,6 +13,7 @@ var Ziplink = require('ziplink-basic-mongo-storage');
 router.get('/all', function(req, res, next){
 	Ziplink.find({}, function(err, ziplinks){
 		res.render('debug/all', { ziplinks: ziplinks });
+		next(err);
 	});
 });
 
