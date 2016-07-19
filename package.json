@@ -11,9 +11,8 @@
     "debug": "~2.2.0",
     "ejs": "^2.4.2",
     "express": "~4.13.1",
-    "mongoose": "^4.4.19",
     "morgan": "~1.6.1",
     "serve-favicon": "~2.3.0",
-    "shortid": "^2.2.6"
+    "ziplink-basic-mongo-storage": "git://github.com/Ziplink/ziplink-basic-mongo-storage.git"
   }
 }
