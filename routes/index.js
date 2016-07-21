@@ -7,11 +7,11 @@ var Ziplink = require('ziplink-basic-mongo-storage');
 var newRoute = require('./new.js');
 var debugRoute = require('./debug.js');
 
-router.use('/new', newRoute);
+router.use('/~new', newRoute);
 
 //If NODE_ENV is undefined or 'development', use the debug route
 if ((process.env.NODE_ENV || 'development') == 'development')
-	router.use('/debug', debugRoute);
+	router.use('/~debug', debugRoute);
 
 /* Render homepage */
 router.get('/', function(req, res, next) {
@@ -19,6 +19,12 @@ router.get('/', function(req, res, next) {
 	err.status = 404;
 	err.message = "Homepage not yet implemented";
 	next(err);
+});
+
+router.get('/~:ID', function(req, res, next){
+  var err = new Error('Utility page \'/~' + req.params.ID + '\' not found');
+  err.status = 404;
+  next(err);
 });
 
 /*	Ziplink display page */
