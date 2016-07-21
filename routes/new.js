@@ -20,15 +20,15 @@ router.get('/', function(req, res, next){
  */
 router.post('/', function(req, res, next){
 
-	Ziplink.createZiplinkFromTemplate(req.body, function(err, ziplink){
+	Ziplink.createZiplink(req.body, function(err, ziplink){
+	  
 		if(err != null){
 			var err = new Error(err);
 			err.status = 500;
 			err.message = "Error creating ziplink";
 			next(err);
 		} else {
-			console.log(ziplink.getEncodedID());
-			res.redirect('/' + ziplink.getEncodedID());
+			res.redirect('/' + ziplink.ID);
 		}
 	});
 });

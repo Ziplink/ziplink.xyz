@@ -13,10 +13,6 @@ router.use('/new', newRoute);
 if ((process.env.NODE_ENV || 'development') == 'development')
 	router.use('/debug', debugRoute);
 
-for(var i = 0; i < 1000; i++){
-	Ziplink.findByEncodedID(i);
-}
-
 /* Render homepage */
 router.get('/', function(req, res, next) {
 	var err = new Error(err);
@@ -26,16 +22,16 @@ router.get('/', function(req, res, next) {
 });
 
 /*	Ziplink display page */
-router.get('/:encodedID', function(req, res, next) {
+router.get('/:ID', function(req, res, next) {
 
 	//Query DB for ziplink with a matching ID
-	Ziplink.findByEncodedID(req.params.encodedID, function(err, ziplinkData){
+	Ziplink.findByID(req.params.ID, function(err, ziplinkData){
 		if(!err && ziplinkData){
 			res.render('ziplink', { ziplinkData: ziplinkData });
 		} else {
 			var err = new Error(err);
 			err.status = 404;
-			err.message = "Ziplink with ID " + req.params.encodedID + " not found";
+			err.message = "Ziplink with ID " + req.params.ID + " not found";
 			next(err);
 		}
 	});
