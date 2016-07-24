@@ -13,6 +13,7 @@
     "express": "~4.13.1",
     "morgan": "~1.6.1",
     "serve-favicon": "~2.3.0",
-    "ziplink-basic-mongo-storage": "git://github.com/Ziplink/ziplink-basic-mongo-storage.git"
+    "ziplink-basic-mongo-storage": "git://github.com/Ziplink/ziplink-basic-mongo-storage.git",
+    "ziplink-passport-authentication": "git://github.com/Ziplink/ziplink-passport-authentication.git"
   }
 }

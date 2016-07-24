@@ -19,13 +19,17 @@ router.get('/', function(req, res, next){
  * Expects a Ziplink object to be passed as a JSON body
  */
 router.post('/', function(req, res, next){
+  
+  var ziplinkData = {
+    name: req.body.name,
+    sublinks: req.body.sublinks
+  };
+  
+  if(typeof req.session.passport !== 'undefined')
+    ziplinkData.user = { 'id': req.session.passport.user._id };
 
-	Ziplink.createZiplink(req.body, function(err, ziplink){
-	  
-		if(err != null){
-			var err = new Error(err);
-			err.status = 500;
-			err.message = "Error creating ziplink";
+	Ziplink.createZiplink(ziplinkData, function(err, ziplink){
+		if(err){
 			next(err);
 		} else {
 			res.redirect('/' + ziplink.ID);
