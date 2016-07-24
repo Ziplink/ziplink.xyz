@@ -1,0 +1,15 @@
+<% include includes/head %>
+
+  <!-- Temporary testing form -->
+
+  	<form action="./edit" method="post">
+  		<label for="name">Name</label>
+  		<input type="text" id="name" name="ziplinkData[name]" value="<%= ziplinkData.name %>">
+  		<label for="sublinks0">sublinks[0]</label>
+  		<input type="text" id="sublinks0" name="ziplinkData[sublinks][0][url]" value="<%= ziplinkData.sublinks[0].url%>">
+  		<label for="sublinks1">sublinks[1]</label>
+  		<input type="text" id="sublinks1" name="ziplinkData[sublinks][1][url]" value="<%= ziplinkData.sublinks[1].url%>">
+  		<button type="submit">Update</button>
+  	</form>
+
+<% include includes/foot %>
