@@ -6,10 +6,8 @@ var Ziplink = require('ziplink-basic-mongo-storage');
 
 var newRoute = require('./new.js');
 var debugRoute = require('./debug.js');
-var editRoute = require('./edit.js');
 
 router.use('/~new', newRoute);
-router.use('/', editRoute);
 
 //If NODE_ENV is undefined or 'development', use the debug route
 if ((process.env.NODE_ENV || 'development') == 'development')
