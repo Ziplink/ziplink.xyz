@@ -42,6 +42,9 @@
         <div class="twelve columns">
             <h1>ziplink.xyz</h1>
             <h6>A place for all your links</h6>
+              <% if(user) {%>
+                Logged in as <%= user.displayName %>
+              <% } %>
 
             <hr/>
         </div>
