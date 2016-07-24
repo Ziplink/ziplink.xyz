@@ -26,7 +26,7 @@ router.post('/', function(req, res, next){
   };
   
   if(typeof req.session.passport !== 'undefined')
-    ziplinkData.user.id = req.session.passport.user._id;
+    ziplinkData.user = { 'id': req.session.passport.user._id };
 
 	Ziplink.createZiplink(ziplinkData, function(err, ziplink){
 		if(err){
