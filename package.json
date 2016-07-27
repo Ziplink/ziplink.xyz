@@ -15,5 +15,6 @@
     "serve-favicon": "~2.3.0",
     "ziplink-basic-mongo-storage": "git://github.com/Ziplink/ziplink-basic-mongo-storage.git",
     "ziplink-passport-authentication": "git://github.com/Ziplink/ziplink-passport-authentication.git"
+    "ziplink-config": "git://github.com/Ziplink/ziplink-config.git"
   }
 }
