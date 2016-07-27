@@ -1,3 +1,4 @@
+var CONFIG = require('ziplink-config');
 var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
@@ -23,7 +24,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use('/~static', express.static(path.join(__dirname, 'public')));
 
-app.use(authentication('/~auth'));
+app.use(authentication(CONFIG));
 
 app.use('/', indexRoute);
 
