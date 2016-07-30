@@ -1,20 +1,23 @@
 {
   "name": "ziplink",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www"
+    "start": "node ./bin/www",
+    "test": "grunt test",
+    "postinstall": "grunt githooks"
   },
   "dependencies": {
     "body-parser": "~1.13.2",
-    "cookie-parser": "~1.3.5",
-    "debug": "~2.2.0",
     "ejs": "^2.4.2",
     "express": "~4.13.1",
-    "morgan": "~1.6.1",
-    "serve-favicon": "~2.3.0",
     "ziplink-basic-mongo-storage": "git://github.com/Ziplink/ziplink-basic-mongo-storage.git",
-    "ziplink-passport-authentication": "git://github.com/Ziplink/ziplink-passport-authentication.git",
-    "ziplink-config": "git://github.com/Ziplink/ziplink-config.git"
+    "ziplink-config": "git://github.com/Ziplink/ziplink-config.git",
+    "ziplink-passport-authentication": "git://github.com/Ziplink/ziplink-passport-authentication.git"
+  },
+  "devDependencies": {
+    "grunt": "~0.4.2",
+    "grunt-githooks": "^0.6.0",
+    "grunt-jscs": "^3.0.1"
   }
 }
