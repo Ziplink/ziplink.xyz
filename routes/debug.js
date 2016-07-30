@@ -6,12 +6,8 @@
 
 var express = require('express');
 var router = express.Router();
+var middleware = require('./middleware/debug');
 
-var Ziplink = require('ziplink-basic-mongo-storage');
-
-router.get('/all', function(req, res, next) {
-  var err = new Error('Not Yet Implemented');
-  return next(err);
-});
+router.get('/all', middleware.renderAllZiplinksPage);
 
 module.exports = exports = router;

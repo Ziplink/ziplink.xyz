@@ -9,46 +9,22 @@ var newRoute = require('./new.js');
 var debugRoute = require('./debug.js');
 var editRoute = require('./edit.js');
 
-router.use('/~new', newRoute);
-router.use('/', editRoute);
+var middleware = require('./middleware/index.js');
 
 /* If NODE_ENV is undefined or 'development', use the debug route */
 if ((process.env.NODE_ENV || 'development') == 'development') {
   router.use('/~debug', debugRoute);
 }
 
-/* Render homepage */
-router.get('/', function(req, res, next) {
-  var err = new Error(err);
-  err.status = 501;
-  err.message = 'Homepage not yet implemented';
-  return next(err);
-});
+router.use('/~new', newRoute);
+router.use('/:id/edit', editRoute);
+router.get('/', middleware.renderHomepage);
 
-router.get('/~:ID', function(req, res, next) {
-  var err = new Error('Utility page \'/~' + req.params.ID + '\' not found');
-  err.status = 404;
-  return next(err);
-});
+// Catch unknown /~* routes
+router.all('/~:id', middleware.renderUnknownUtilityPage);
 
 /*	Ziplink display page */
-router.get('/:ID', function(req, res, next) {
-
-  /* Query DB for ziplink with a matching ID */
-  Ziplink.findByID(req.params.ID, function(err, ziplinkData) {
-    if (!err && ziplinkData) {
-      res.render('ziplink', {
-        ziplinkData: ziplinkData,
-      });
-    } else {
-      var err = new Error(err);
-      err.status = 404;
-      err.message = 'Ziplink with ID ' + req.params.ID + ' not found';
-      return next(err);
-    }
-  });
-
-});
+router.get('/:id', middleware.renderZiplinkDisplayPage);
 
 
 module.exports = exports = router;
