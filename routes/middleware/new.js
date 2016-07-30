@@ -3,7 +3,7 @@
 var Ziplink = require('ziplink-basic-mongo-storage');
 
 function newZiplinkGetHandler(req, res, next) {
-  res.render('newZiplink', {});
+  return res.render('newZiplink', {});
 }
 
 function newZiplinkPostHandler(req, res, next) {
@@ -12,20 +12,18 @@ function newZiplinkPostHandler(req, res, next) {
     sublinks: req.body.sublinks,
   };
 
-  if (typeof req.session.passport !== 'undefined') {
+  if (req.session & req.session.passport & req.session.passport.user) {
     ziplinkData.user = {
       id: req.session.passport.user.id,
     };
   }
-  Ziplink.createZiplink(ziplinkData, function(err, ziplink) {
-    if (err) {
-      return next(err);
-    }
-    res.redirect('/' + ziplink.ID);
-  });
+  Ziplink.createZiplink(ziplinkData)
+    .then(function(ziplink) {
+      res.redirect('/' + ziplink.ID);
+    })
+    .catch(next);
 
 }
-
 module.exports = exports = {
   get: newZiplinkGetHandler,
   post: newZiplinkPostHandler,

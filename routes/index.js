@@ -3,8 +3,6 @@ var express = require('express');
 
 var router = express.Router();
 
-var Ziplink = require('ziplink-basic-mongo-storage');
-
 var newRoute = require('./new.js');
 var debugRoute = require('./debug.js');
 var editRoute = require('./edit.js');
