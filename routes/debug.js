@@ -11,7 +11,7 @@ var Ziplink = require('ziplink-basic-mongo-storage');
 
 router.get('/all', function(req, res, next) {
   var err = new Error('Not Yet Implemented');
-  next(err);
+  return next(err);
 });
 
 module.exports = exports = router;

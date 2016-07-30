@@ -16,7 +16,7 @@ router.get('/:ID/edit', function(req, res, next) {
       });
     } else {
       err.status = 404;
-      next(err);
+      return next(err);
     }
   });
 });

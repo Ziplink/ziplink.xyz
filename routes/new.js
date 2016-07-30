@@ -28,11 +28,8 @@ router.post('/', function(req, res, next) {
     };
   }
   Ziplink.createZiplink(ziplinkData, function(err, ziplink) {
-    if (err) {
-      next(err);
-    } else {
-      res.redirect('/' + ziplink.ID);
-    }
+    if (err) { return next(err); }
+    res.redirect('/' + ziplink.ID);
   });
 });
 

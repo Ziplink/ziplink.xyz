@@ -20,15 +20,15 @@ if ((process.env.NODE_ENV || 'development') == 'development') {
 /* Render homepage */
 router.get('/', function(req, res, next) {
   var err = new Error(err);
-  err.status = 404;
+  err.status = 501;
   err.message = 'Homepage not yet implemented';
-  next(err);
+  return next(err);
 });
 
 router.get('/~:ID', function(req, res, next) {
   var err = new Error('Utility page \'/~' + req.params.ID + '\' not found');
   err.status = 404;
-  next(err);
+  return next(err);
 });
 
 /*	Ziplink display page */
@@ -44,7 +44,7 @@ router.get('/:ID', function(req, res, next) {
       var err = new Error(err);
       err.status = 404;
       err.message = 'Ziplink with ID ' + req.params.ID + ' not found';
-      next(err);
+      return next(err);
     }
   });
 

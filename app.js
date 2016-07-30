@@ -4,11 +4,11 @@ var CONFIG = require('ziplink-config');
 var express = require('express');
 var path = require('path');
 var bodyParser = require('body-parser');
-var errorHandlers = require('./lib/middleware/errorHandlers.js');
+var authentication = require('ziplink-passport-authentication')(CONFIG);
 
 var indexRoute = require('./routes/index');
-
-var authentication = require('ziplink-passport-authentication')(CONFIG);
+var catch404 = require('./routes/catch404');
+var errorRoute = require('./routes/error');
 
 var app = express();
 
@@ -20,22 +20,9 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use('/~static', express.static(path.join(__dirname, 'public')));
-
 app.use('/', authentication);
-
 app.use('/', indexRoute);
-
-// Any undefined routes use this final default route
-app.use(errorHandlers.catch404);
-
-/******************
- * Error handlers *
- ******************/
-
-if (app.get('env') === 'production') {
-  app.use(errorHandlers.production);
-} else {
-  app.use(errorHandlers.development);
-}
+app.use(catch404);
+app.use(errorRoute);
 
 module.exports = app;
