@@ -18,13 +18,13 @@ function renderUnknownUtilityPage(req, res, next) {
 function renderZiplinkDisplayPage(req, res, next) {
 
   /* Query DB for ziplink with a matching ID */
-  Ziplink.findByID(req.params.id, function(err, ziplinkData) {
-    if (err) { return next(err) }
-    res.render('ziplink', {
-      ziplinkData: ziplinkData,
-    });
-  });
-
+  Ziplink.findById(req.params.id)
+    .then(function(ziplinkData) {
+      res.render('ziplink', {
+        ziplinkData: ziplinkData,
+      });
+    })
+    .catch(next);
 }
 
 module.exports = exports = {
