@@ -1,19 +1,10 @@
 'use strict';
 
 var Ziplink = require('ziplink-basic-mongo-storage');
-var Promise = require('bluebird');
 
 function newZiplinkGetHandler(req, res, next) {
-  res.render('newZiplink', {});
+  return res.render('newZiplink', {});
 }
-
-function redirectToZiplink(req, res, next) {
-  return new Promise(function(ziplink) {
-    res.redirect('/' + ziplink.ID);
-  });
-}
-
-
 
 function newZiplinkPostHandler(req, res, next) {
   var ziplinkData = {
@@ -26,7 +17,6 @@ function newZiplinkPostHandler(req, res, next) {
       id: req.session.passport.user.id,
     };
   }
-  console.log(ziplinkData);
   Ziplink.createZiplink(ziplinkData)
     .then(function(ziplink) {
       res.redirect('/' + ziplink.ID);

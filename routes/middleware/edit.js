@@ -7,7 +7,7 @@ function renderEditZiplinkPage(req, res, next) {
     .then(function(ziplink) {
       res.render('editZiplink', {
         ziplinkData: ziplink,
-      })
+      });
     })
     .catch(next);
 
