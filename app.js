@@ -1,10 +1,9 @@
 'use strict';
 
-var CONFIG = require('ziplink-config');
 var express = require('express');
 var path = require('path');
 var bodyParser = require('body-parser');
-var authentication = require('ziplink-passport-authentication')(CONFIG);
+var authentication = require('ziplink-passport-authentication');
 
 var indexRoute = require('./routes/index');
 var catch404 = require('./routes/catch404');
