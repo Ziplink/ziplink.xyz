@@ -1,0 +1,24 @@
+{
+  "mongo": {
+    "URI": "mongodb://localhost/ziplink"
+  },
+  "ziplink-passport-authentication": {
+    "session": {
+      "secret": ""
+    },
+    "providers": {
+      "google": {
+        "configured": false,
+      	"web": {
+      		"client_id": "replaceme",
+      		"project_id": "replaceme",
+      		"auth_uri": "replaceme",
+      		"token_uri": "https://accounts.google.com/o/oauth2/token",
+      		"auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+      		"client_secret": "replaceme",
+      		"redirect_uris": ["http://host:port/~auth/google/callback"]
+      	}
+      }
+    }
+  }
+}
