@@ -12,7 +12,7 @@ function newZiplinkPostHandler(req, res, next) {
     sublinks: req.body.sublinks,
   };
 
-  if (req.session & req.session.passport & req.session.passport.user) {
+  if (req.session && req.session.passport && req.session.passport.user) {
     ziplinkData.user = {
       id: req.session.passport.user.id,
     };
