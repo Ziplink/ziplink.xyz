@@ -1,6 +1,9 @@
 'use strict';
+var log = require('ziplink-logger');
 
-var developmentErrorHandler = function devErrHandler(err, req, res, next) {
+var developmentErrorHandler = function devErrHandler(err, req, res) {
+  log.debug({requestError: err, req: req},
+    'Error processing request: ' + err.message);
   res.status(err.status || 500);
   res.render('error', {
     message: err.message,
@@ -8,7 +11,9 @@ var developmentErrorHandler = function devErrHandler(err, req, res, next) {
   });
 };
 
-var productionErrorHandler = function prodErrHandler(err, req, res, next) {
+var productionErrorHandler = function prodErrHandler(err, req, res) {
+  log.debug({requestError: err, req: req},
+    'Error processing request: ' + err.message);
   res.status(err.status || 500);
   res.render('error', {
     message: err.message,

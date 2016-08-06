@@ -7,4 +7,6 @@ npm-debug.log*
 node_modules
 jspm_packages
 
+# IDE Files
 .idea
+.iml

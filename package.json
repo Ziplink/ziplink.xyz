@@ -13,7 +13,8 @@
     "ejs": "^2.4.2",
     "express": "~4.13.1",
     "ziplink-basic-mongo-storage": "git://github.com/Ziplink/ziplink-basic-mongo-storage.git",
-    "ziplink-passport-authentication": "git://github.com/Ziplink/ziplink-passport-authentication.git"
+    "ziplink-passport-authentication": "git://github.com/Ziplink/ziplink-passport-authentication.git",
+    "ziplink-logger": "git://github.com/Ziplink/ziplink-logger.git"
   },
   "devDependencies": {
     "grunt": "~0.4.2",
